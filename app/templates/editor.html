@@ -1,0 +1,51 @@
+<html>
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="window">
+        <div class="window-header">
+            <div class="action-buttons"></div>
+            <select class="language">
+                <option value="PYTHON3" selected>PYTHON3</option>
+                <option value="C">C</option>
+                <option value="CPP">CPP</option>
+                <option value="JAVA">JAVA</option>
+            </select>
+        </div>
+        <div class="window-body">
+            <textarea class="code-input"></textarea>
+        </div>
+        <h1>Input</h1>
+        <input type="text" id="input" style="background-color: white;width:100%;height: 10%;">
+        <h1>Output</h1>
+        <pre class="code-output">
+            <h3 id="temp"></h3>
+        </pre>
+    </div>
+    <button class="offset" id="compile" style="width: 100%;height: 5%;background-color: #19bc8b;">Compile & Run</button>
+    <button class="offset" style="width: 100%;height: 5%;background-color: #19bc8b;">Submit</button>
+</body>
+<script>
+    $("#compile").click(function () {
+        $.ajax({
+            url: "{% url 'compile' %}",
+            data: {
+                code: $("textarea.code-input").val(),
+                lang: $(".language").val(),
+                input: $("#input").val()
+            },
+            success: function (response) {
+                    $("#temp").html(response.output.run_status.output_html);
+            }
+        });
+    });
+
+
+</script>
+
+</html>
