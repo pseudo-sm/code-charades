@@ -46,6 +46,7 @@ def compile(request):
     code = request.GET.get("code")
     input = request.GET.get("input")
     result = gfg_compile(lang,code,input)
+    print(result.json())
     return JsonResponse({"output" : result.json()},safe=False)
 
 

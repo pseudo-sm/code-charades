@@ -40,6 +40,7 @@
                 input: $("#input").val()
             },
             success: function (response) {
+                    console.log(response.output);
                     $("#temp").html(response.output.run_status.output_html);
             }
         });
