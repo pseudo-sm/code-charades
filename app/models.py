@@ -15,3 +15,13 @@ class Questions(models.Model):
     def get_choices(self):
 
         return self.CHOICES
+
+class Submissions(models.Model):
+
+    name = models.CharField(max_length=100)
+    partner_name = models.CharField(max_length=100)
+    code = models.TextField()
+
+    def __str__(self):
+
+        return self.name+self.partner_name

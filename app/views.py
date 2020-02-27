@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Questions
+from .models import Questions,Submissions
 # Create your views here.
 from random import randint
 import requests
@@ -53,3 +53,28 @@ def compile(request):
 def editor(request):
 
     return render(request,"editor.html")
+
+
+def start(request):
+    p1 = request.GET.get("p1")
+    p2 = request.GET.get("p2")
+    id = request.GET.get("id")
+    problem = Problems.objects.get(sl=id)
+    submission = Submissions(player1=p1,player2=p2,question=problem)
+    submission.save()
+    return JsonResponse({"uc":submission.pk},safe=False)
+
+def start_exam(request):
+    yn = request.GET.get("yn")
+    pn = request.GET.get("pn")
+    request.session["yn"] = yn
+    request.session["pn"] = pn
+    return JsonResponse(True,safe=False)
+
+def submit(request):
+
+    yn = request.session["yn"]
+    pn = request.session["pn"]
+    code = request.GET.get("code")
+    submission = Submissions.objects.create(name=yn,partner_name=pn,code=code)
+    return JsonResponse(submission.pk,safe=False)
